@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+  seed     = "prisma/seed.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String       @id @default(uuid())
+  email              String       @unique
+  name               String
+  password           String
+  description        String?
+  image              String?
+  collections        Collection[]
+  user_voter         Rating[]     @relation("UserVoter")
+  average_rating     Float        @default(0.0)
+  collections_amount Int          @default(0)
+  email_verified     Boolean      @default(false)
+  Comment            Comment[]
+
+  @@map("users")
+}
+
+model VerificationToken {
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+  @@map("verification_tokens")
+}
+
+model Collection {
+  id             String    @id @default(uuid())
+  created_at     DateTime  @default(now())
+  user           User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id        String
+  name           String
+  description    String?
+  tag            Tag       @relation(fields: [tag_id], references: [id])
+  tag_id         Int
+  images         Image[]
+  Rating         Rating[]  @relation("CollectionRated")
+  average_rating Float     @default(0.0)
+  rating_count   Int       @default(0)
+  Comment        Comment[]
+
+  @@map("collections")
+}
+
+model Image {
+  id            String     @id @default(uuid())
+  collection    Collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  collection_id String
+  src           String
+
+  @@map("images")
+}
+
+model Tag {
+  id          Int          @id @default(autoincrement())
+  label       String
+  collections Collection[]
+
+  @@map("tags")
+}
+
+model Rating {
+  id            String      @id @default(uuid())
+  value         Float
+  voter         User        @relation("UserVoter", fields: [voter_id], references: [id], onDelete: Cascade)
+  voter_id      String
+  collection    Collection? @relation("CollectionRated", fields: [collection_id], references: [id], onDelete: Cascade)
+  collection_id String?
+
+  @@unique([collection_id, voter_id])
+  @@map("ratings")
+}
+
+model Comment {
+  id            String     @id @default(uuid())
+  text          String
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+  collection    Collection @relation(fields: [collection_id], references: [id], onDelete: Cascade)
+  collection_id String
+  user          User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id       String
+
+  @@map("comments")
+}
