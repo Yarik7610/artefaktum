@@ -79,6 +79,7 @@ export const CreatorFormSchema = z.object({
   files: z
     .array(ExtendedFileSchema)
     .min(1, `Загрузите хотя бы 1 файл типа ${allowedCollectionImageExtensions.join(", ")}`)
+    .max(20, `Возможно максимум 20 файлов`)
     .refine(
       (files) => {
         return files.every((file) => {

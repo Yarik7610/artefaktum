@@ -40,7 +40,7 @@ export const DragDropInput: FC<DragDropProps> = ({ form, setPreviewImgs }) => {
       const files = Array.from(droppedFiles)
       const extendedFiles: ExtendedFile[] = files.map((file) => ({ file, id: uuidv4() }))
 
-      const validationResult = CreatorFormSchema.shape.files.safeParse(extendedFiles)
+      const validationResult = CreatorFormSchema.shape.files.safeParse([...form.getValues("files"), ...extendedFiles])
       if (!validationResult.success) {
         toast.error(validationResult.error.issues[0].message)
         setDrag(false)
@@ -105,9 +105,10 @@ export const DragDropInput: FC<DragDropProps> = ({ form, setPreviewImgs }) => {
                       id: uuidv4()
                     }))
 
-                    const validationResult = CreatorFormSchema.shape.files.safeParse(extendedFiles)
+                    const validationResult = CreatorFormSchema.shape.files.safeParse([...value, ...extendedFiles])
                     if (!validationResult.success) {
                       toast.error(validationResult.error.issues[0].message)
+                      e.target.value = "" //to clean browser data about last chosen images
                       return
                     }
                     createImgSrcs(extendedFiles)
