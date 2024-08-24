@@ -77,7 +77,7 @@ export const updateEmail = async (data: z.infer<typeof EmailFormSchema>) => {
   if (existingEmail) return { error: "Почта занята. Попробуйте другую" }
 
   const verificationToken = await generateVerificationToken(validatedFields.data.email)
-  await sendVerificationEmail(verificationToken.email, verificationToken.token)
+  await sendVerificationEmail(verificationToken.email, verificationToken.token, "update")
   await prisma.user.update({
     where: {
       id: user.id

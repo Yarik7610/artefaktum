@@ -30,7 +30,7 @@ export const signUp = async (data: z.infer<typeof SignUpFormSchema>) => {
   })
 
   const verificationToken = await generateVerificationToken(validatedFields.data.email)
-  await sendVerificationEmail(verificationToken.email, verificationToken.token)
+  await sendVerificationEmail(verificationToken.email, verificationToken.token, "set")
 
   return { message: "На почту была отправлена ссылка для её подтверждения!" }
 }
@@ -48,7 +48,7 @@ export const signInAction = async (data: z.infer<typeof SignInFormSchema>) => {
 
   if (!existingUser.email_verified) {
     const verificationToken = await generateVerificationToken(existingUser.email)
-    await sendVerificationEmail(verificationToken.email, verificationToken.token)
+    await sendVerificationEmail(verificationToken.email, verificationToken.token, "set")
     return { error: "Подтвердите почту для входа", type: "info" }
   }
 
