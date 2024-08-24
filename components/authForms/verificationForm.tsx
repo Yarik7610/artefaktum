@@ -1,6 +1,6 @@
 "use client"
 
-import { verificateUserAction } from "@/app/_actions/authActions"
+import { verificateEmailAction } from "@/app/_actions/authActions"
 import { Session } from "next-auth"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -11,7 +11,7 @@ import { buttonVariants } from "../shadcn/button"
 interface VerificationFormProps {
   session: Session | null
 }
-export const VerificationForm: FC<VerificationFormProps> = ({ session }) => {
+export const VerificateEmailForm: FC<VerificationFormProps> = ({ session }) => {
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
   const { push } = useRouter()
@@ -24,7 +24,7 @@ export const VerificationForm: FC<VerificationFormProps> = ({ session }) => {
       push("/sign-in")
       return
     }
-    verificateUserAction(token, session?.user?.id)
+    verificateEmailAction(token, session?.user?.id)
       .then((data) => {
         setSucess(data.message)
         setError(data.error)

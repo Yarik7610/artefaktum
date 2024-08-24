@@ -31,6 +31,6 @@ export const config = {
   ]
 }
 
-const publicRoutes = ["/", "/verification"]
+const publicRoutes = ["/", "/verificate-email"]
 const authRoutes = ["/sign-in", "/sign-up"]
 const apiAuthPrefix = "/api/auth"

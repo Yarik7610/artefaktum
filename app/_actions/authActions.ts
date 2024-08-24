@@ -68,18 +68,29 @@ export const signInAction = async (data: z.infer<typeof SignInFormSchema>) => {
   }
 }
 
-export const verificateUserAction = async (token: string, authorizedUserId: string | undefined) => {
+export const verificateEmailAction = async (token: string, authorizedUserId: string | undefined) => {
   const existingToken = await getVerificationTokenByToken(token)
   if (!existingToken) return { error: "Токена не существует" }
 
   const hasExpired = new Date(existingToken.expires) < new Date()
-  if (hasExpired) return { error: "Токен истёк. Авторизуйтесь снова для получения нового сообщения на почту" }
+  const existingUser = await getUserByEmail(existingToken.email)
 
   let userToUpdateId = authorizedUserId
   if (!userToUpdateId) {
-    const existingUser = await getUserByEmail(existingToken.email)
+    if (hasExpired) return { error: "Токен истёк. Авторизуйтесь снова для получения нового сообщения на почту" }
     if (!existingUser) return { error: "Почта не зарегистрирована" }
     userToUpdateId = existingUser.id
+  } else {
+    if (hasExpired) {
+      await prisma.user.update({
+        where: { id: userToUpdateId },
+        data: {
+          email_verified: true
+        }
+      })
+      return { error: "Токен истёк. Введите новую почту повторно для получения нового токена" }
+    }
+    if (existingUser) return { error: "Почта уже занята. Попробуйте другую" }
   }
 
   await prisma.user.update({
