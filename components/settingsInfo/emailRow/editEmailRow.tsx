@@ -44,7 +44,7 @@ export const EditEmailRow: FC<EditEmailRowProps> = ({ value, setActiveRow }) => 
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Новая почта" className="max-w-[300px] text-primary" {...field} />
+                  <Input placeholder="Новая почта" className="w-full md:max-w-[300px] text-primary" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

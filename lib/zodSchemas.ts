@@ -5,7 +5,7 @@ export const SignInFormSchema = z.object({
     .string()
     .trim()
     .min(1, "Поле обязательно")
-    .min(5, "Пароль должен быть 5 символов и более")
+    .min(5, "Длина поля должна быть 5 символов и более")
     .max(50, "Длина поля не более 50 символов"),
   email: z.string().min(1, "Поле обязательно").email("Введите валидную почту")
 })
@@ -17,7 +17,7 @@ export const SignUpFormSchema = z.object({
     .string()
     .trim()
     .min(1, "Поле обязательно")
-    .min(5, "Пароль должен быть 5 символов и более")
+    .min(5, "Длина поля должна быть 5 символов и более")
     .max(50, "Длина поля не более 50 символов"),
   email: z.string().min(1, "Поле обязательно").email("Введите валидную почту")
 })
@@ -38,17 +38,17 @@ export const PasswordFormSchema = z
     oldPassword: z
       .string()
       .min(1, "Поле обязательно")
-      .min(5, "Пароль должен быть 5 символов и более")
+      .min(5, "Длина поля должна быть 5 символов и более")
       .max(50, "Длина поля не более 50 символов"),
     newPassword: z
       .string()
       .min(1, "Поле обязательно")
-      .min(5, "Пароль должен быть 5 символов и более")
+      .min(5, "Длина поля должна быть 5 символов и более")
       .max(50, "Длина поля не более 50 символов"),
     newPasswordRepeat: z
       .string()
       .min(1, "Поле обязательно")
-      .min(5, "Пароль должен быть 5 символов и более")
+      .min(5, "Длина поля должна быть 5 символов и более")
       .max(50, "Длина поля не более 50 символов")
   })
   .refine((data) => data.newPassword === data.newPasswordRepeat, {
@@ -134,3 +134,27 @@ export const CommentFormSchema = z.object({
   text: z.string().trim().min(1, "Длина поля - минимум 1 символ").max(500, "Длина поля не более 500 символов")
 })
 export type CommentFormSchemaType = z.infer<typeof CommentFormSchema>
+
+export const RequestResetPasswordFormSchema = z.object({
+  email: z.string().min(1, "Поле обязательно").email("Введите валидную почту")
+})
+export type RequestResetPasswordFormSchemaType = z.infer<typeof RequestResetPasswordFormSchema>
+
+export const NewPasswordFormSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .min(1, "Поле обязательно")
+      .min(5, "Длина поля должна быть 5 символов и более")
+      .max(50, "Длина поля не более 50 символов"),
+    newPasswordRepeat: z
+      .string()
+      .min(1, "Поле обязательно")
+      .min(5, "Длина поля должна быть 5 символов и более")
+      .max(50, "Длина поля не более 50 символов")
+  })
+  .refine((data) => data.newPassword === data.newPasswordRepeat, {
+    message: "Пароли не совпадают",
+    path: ["newPasswordRepeat"]
+  })
+export type NewPasswordFormSchemaType = z.infer<typeof NewPasswordFormSchema>

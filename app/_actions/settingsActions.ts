@@ -77,7 +77,7 @@ export const updateEmail = async (data: z.infer<typeof EmailFormSchema>) => {
   if (existingEmail) return { error: "Почта занята. Попробуйте другую" }
 
   const verificationToken = await generateVerificationToken(validatedFields.data.email)
-  await sendVerificationEmail(verificationToken.email, verificationToken.token)
+  await sendVerificationEmail(verificationToken.email, verificationToken.token, "update")
   await prisma.user.update({
     where: {
       id: user.id
@@ -97,11 +97,11 @@ export const updatePassword = async (data: z.infer<typeof PasswordFormSchema>) =
   const validatedFields = PasswordFormSchema.safeParse(data)
   if (!validatedFields.success) return { error: "Ошибка валидации формы" }
 
-  const newAndOldpasswordsMatch = validatedFields.data.newPassword === validatedFields.data.oldPassword
-  if (newAndOldpasswordsMatch) return { error: "Поля нового и старого полей не должны совпадать" }
-
   const oldPasswordsMatch = await compare(validatedFields.data.oldPassword, user.password)
   if (!oldPasswordsMatch) return { error: "Неверный старый пароль" }
+
+  const newAndOldpasswordsMatch = await compare(validatedFields.data.newPassword, user.password)
+  if (newAndOldpasswordsMatch) return { error: "Значения нового и старого паролей не должны совпадать" }
 
   const hashedPassword = await hash(validatedFields.data.newPassword, 7)
 
@@ -180,6 +180,10 @@ export const deleteUser = async () => {
   })
 
   await prisma.verificationToken.deleteMany({
+    where: { email: user.email }
+  })
+
+  await prisma.passwordResetToken.deleteMany({
     where: { email: user.email }
   })
 

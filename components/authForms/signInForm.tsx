@@ -59,7 +59,6 @@ export const SignInForm = () => {
                     className="pr-[45px]"
                     type={!isVisible ? "password" : "text"}
                     placeholder="Введите пароль"
-                    autoComplete="on"
                     {...field}
                   />
                   <button
@@ -78,10 +77,13 @@ export const SignInForm = () => {
             </FormItem>
           )}
         />
+        <Link href={"/reset"} className="hover:underline font-medium">
+          Забыли пароль?
+        </Link>
         <SubmitFormBtn isSubmitting={isSubmitting}>Войти</SubmitFormBtn>
         <p className="text-center text-gray-500">
           Нет аккаунта?{" "}
-          <span className="font-semibold text-primary">
+          <span className="font-medium text-primary">
             <Link href={"/sign-up"} className="hover:underline">
               Зарегистрироваться
             </Link>

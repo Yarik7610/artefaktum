@@ -1,5 +1,5 @@
 import { auth } from "@/auth"
-import { VerificationForm } from "@/components/authForms/verificationForm"
+import { VerificateEmailForm } from "@/components/authForms/verificationForm"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Страница подтверждения почты"
 }
 
-export default async function VerificationPage() {
+export default async function VerificateEmailPage() {
   const session = await auth()
-  return <VerificationForm session={session} />
+  return <VerificateEmailForm session={session} />
 }
