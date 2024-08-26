@@ -134,3 +134,8 @@ export const CommentFormSchema = z.object({
   text: z.string().trim().min(1, "Длина поля - минимум 1 символ").max(500, "Длина поля не более 500 символов")
 })
 export type CommentFormSchemaType = z.infer<typeof CommentFormSchema>
+
+export const RequestResetPasswordForm = z.object({
+  email: z.string().min(1, "Поле обязательно").email("Введите валидную почту")
+})
+export type RequestResetPasswordFormType = z.infer<typeof RequestResetPasswordForm>

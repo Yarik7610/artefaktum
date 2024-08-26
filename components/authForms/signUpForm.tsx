@@ -93,7 +93,7 @@ export const SignUpForm = () => {
         <SubmitFormBtn isSubmitting={isSubmitting}>Зарегистрироваться</SubmitFormBtn>
         <p className="text-center text-gray-500">
           Уже есть аккаунт?{" "}
-          <span className="font-semibold text-primary">
+          <span className="font-medium text-primary">
             <Link href={"/sign-in"} className="hover:underline">
               Войти
             </Link>

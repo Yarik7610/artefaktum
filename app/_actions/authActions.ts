@@ -4,7 +4,7 @@ import { signIn } from "@/auth"
 import prisma from "@/lib/db"
 import { sendVerificationEmail } from "@/lib/mail"
 import { generateVerificationToken } from "@/lib/tokens"
-import { SignInFormSchema, SignUpFormSchema } from "@/lib/zodSchemas"
+import { RequestResetPasswordForm, SignInFormSchema, SignUpFormSchema } from "@/lib/zodSchemas"
 import { getUserByEmail } from "@/services/user"
 import { getVerificationTokenByToken } from "@/services/verificationToken"
 import { hash } from "bcryptjs"
@@ -13,9 +13,7 @@ import { z } from "zod"
 
 export const signUp = async (data: z.infer<typeof SignUpFormSchema>) => {
   const validatedFields = SignUpFormSchema.safeParse(data)
-  if (!validatedFields.success) {
-    return { error: "Ошибка валидации формы" }
-  }
+  if (!validatedFields.success) return { error: "Ошибка валидации формы" }
 
   const existingUser = await getUserByEmail(validatedFields.data.email)
   if (existingUser) return { error: "Данный пользователь уже зарегистрирован" }
@@ -37,9 +35,7 @@ export const signUp = async (data: z.infer<typeof SignUpFormSchema>) => {
 
 export const signInAction = async (data: z.infer<typeof SignInFormSchema>) => {
   const validatedFields = SignInFormSchema.safeParse(data)
-  if (!validatedFields.success) {
-    return { error: "Ошибка валидации формы" }
-  }
+  if (!validatedFields.success) return { error: "Ошибка валидации формы" }
 
   const { email, password } = validatedFields.data
 
@@ -105,4 +101,14 @@ export const verificateEmailAction = async (token: string, authorizedUserId: str
     where: { id: existingToken.id }
   })
   return { message: "Почта подтверждена!" }
+}
+
+export const requestResetPassword = async (data: z.infer<typeof RequestResetPasswordForm>) => {
+  const validatedField = RequestResetPasswordForm.safeParse(data)
+  if (!validatedField.success) return { error: "Ошибка валидации формы" }
+
+  const existingUser = await getUserByEmail(validatedField.data.email)
+  if (!existingUser) return { error: "Пользователя с данной почтой не существует" }
+
+  return { message: "На почту была отправлена ссылка для смены пароля!" }
 }

@@ -4,6 +4,7 @@ import { Input } from "@/components/shadcn/input"
 import { SubmitFormBtn } from "@/components/submitFormBtn"
 import { PasswordFormSchema, PasswordFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
 import { Dispatch, FC, SetStateAction } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
@@ -93,6 +94,12 @@ export const EditPasswordRow: FC<EditPasswordRowProps> = ({ setActiveRow }) => {
               </FormItem>
             )}
           />
+          <div className="mt-5">
+            <Link href={"/reset"} className="hover:underline font-medium text-primary ">
+              Забыли пароль?
+            </Link>
+          </div>
+
           <div className="flex flex-wrap gap-3 mt-5">
             <CloseSettingsEditingBtn setActiveRow={setActiveRow} />
             <SubmitFormBtn isSubmitting={isSubmitting} className="w-[150px]">
