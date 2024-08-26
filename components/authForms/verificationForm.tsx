@@ -38,9 +38,7 @@ export const VerificateEmailForm: FC<VerificationFormProps> = ({ session }) => {
 
   return (
     <form className="w-full flex flex-col items-center rounded-md">
-      <legend className="text-2xl font-bold text-center">
-        {!session ? "Подтверждаем почту" : "Подтверждаем смену почты"}
-      </legend>
+      <legend className="text-2xl font-bold text-center">{!session ? "Подтверждаем почту" : "Меняем почту"}</legend>
       {!success && !error && <p className="text-gray-500 mt-5">Пожалуйста, подождите</p>}
       {!success && !error && <Preloader />}
       {error && <p className="py-5 text-center text-red-500">{error}</p>}

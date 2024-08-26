@@ -1,4 +1,3 @@
-import { auth } from "@/auth"
 import { NewPasswordForm } from "@/components/authForms/newPasswordForm"
 import { Metadata } from "next"
 
@@ -8,6 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default async function NewPasswordPage() {
-  const session = await auth()
-  return <NewPasswordForm session={session} />
+  return <NewPasswordForm />
 }

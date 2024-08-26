@@ -1,21 +1,19 @@
 "use client"
 
+import { resetPassword } from "@/app/_actions/authActions"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
 import { NewPasswordFormSchema, NewPasswordFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff } from "lucide-react"
-import { Session } from "next-auth"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { FC, useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 import { SubmitFormBtn } from "../submitFormBtn"
 
-interface NewPasswordFormProps {
-  session: Session | null
-}
-export const NewPasswordForm: FC<NewPasswordFormProps> = ({ session }) => {
+export const NewPasswordForm = () => {
   const searchParams = useSearchParams()
   const token = searchParams.get("token")
   const { push } = useRouter()
@@ -33,10 +31,16 @@ export const NewPasswordForm: FC<NewPasswordFormProps> = ({ session }) => {
   const { isSubmitting } = form.formState
 
   const onSubmit = async (data: NewPasswordFormSchemaType) => {
-    // const result = await requestResetPassword(data)
-    // if (result?.error) toast.error(result.error)
-    // else if (result?.message) toast.info(result?.message)
+    const result = await resetPassword(data, token!)
+    if (result?.error) toast.error(result.error)
+    else if (result?.message) toast.success(result?.message)
   }
+
+  useEffect(() => {
+    if (!token) {
+      push("/sign-in")
+    }
+  }, [])
 
   return (
     <Form {...form}>

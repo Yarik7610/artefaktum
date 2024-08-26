@@ -33,7 +33,7 @@ export const ResetForm: FC<ResetFormProps> = ({ defaultEmail }) => {
   return (
     <Form {...form}>
       <form className="w-full flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
-        <legend className="text-3xl font-bold">Смена пароля</legend>
+        <legend className="text-3xl font-bold">Восстановление пароля</legend>
         <FormField
           control={form.control}
           name="email"
