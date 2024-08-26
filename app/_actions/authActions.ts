@@ -2,8 +2,8 @@
 
 import { signIn } from "@/auth"
 import prisma from "@/lib/db"
-import { sendVerificationEmail } from "@/lib/mail"
-import { generateVerificationToken } from "@/lib/tokens"
+import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/mail"
+import { generatePasswordResetToken, generateVerificationToken } from "@/lib/tokens"
 import { RequestResetPasswordForm, SignInFormSchema, SignUpFormSchema } from "@/lib/zodSchemas"
 import { getUserByEmail } from "@/services/user"
 import { getVerificationTokenByToken } from "@/services/verificationToken"
@@ -109,6 +109,9 @@ export const requestResetPassword = async (data: z.infer<typeof RequestResetPass
 
   const existingUser = await getUserByEmail(validatedField.data.email)
   if (!existingUser) return { error: "Пользователя с данной почтой не существует" }
+
+  const passwordResetToken = await generatePasswordResetToken(validatedField.data.email)
+  await sendPasswordResetEmail(passwordResetToken.email, passwordResetToken.token)
 
   return { message: "На почту была отправлена ссылка для смены пароля!" }
 }
