@@ -3,7 +3,7 @@
 import { requestResetPassword } from "@/app/_actions/authActions"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
-import { RequestResetPasswordForm, RequestResetPasswordFormType } from "@/lib/zodSchemas"
+import { RequestResetPasswordFormSchema, RequestResetPasswordFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { FC } from "react"
@@ -15,8 +15,8 @@ interface ResetFormProps {
   defaultEmail: string | ""
 }
 export const ResetForm: FC<ResetFormProps> = ({ defaultEmail }) => {
-  const form = useForm<RequestResetPasswordFormType>({
-    resolver: zodResolver(RequestResetPasswordForm),
+  const form = useForm<RequestResetPasswordFormSchemaType>({
+    resolver: zodResolver(RequestResetPasswordFormSchema),
     defaultValues: {
       email: defaultEmail
     }
@@ -24,7 +24,7 @@ export const ResetForm: FC<ResetFormProps> = ({ defaultEmail }) => {
 
   const { isSubmitting } = form.formState
 
-  const onSubmit = async (data: RequestResetPasswordFormType) => {
+  const onSubmit = async (data: RequestResetPasswordFormSchemaType) => {
     const result = await requestResetPassword(data)
     if (result?.error) toast.error(result.error)
     else if (result?.message) toast.info(result?.message)
@@ -46,7 +46,7 @@ export const ResetForm: FC<ResetFormProps> = ({ defaultEmail }) => {
             </FormItem>
           )}
         />
-        <SubmitFormBtn isSubmitting={isSubmitting}>Подтвердить</SubmitFormBtn>
+        <SubmitFormBtn isSubmitting={isSubmitting}>Отправить письмо</SubmitFormBtn>
         {defaultEmail ? (
           <Link href={"/settings"} className="hover:underline text-center font-medium">
             К настройкам

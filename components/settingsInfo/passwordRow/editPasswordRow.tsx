@@ -1,11 +1,14 @@
+"use client"
+
 import { updatePassword } from "@/app/_actions/settingsActions"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
 import { SubmitFormBtn } from "@/components/submitFormBtn"
 import { PasswordFormSchema, PasswordFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
-import { Dispatch, FC, SetStateAction } from "react"
+import { Dispatch, FC, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { CloseSettingsEditingBtn } from "../closeSettingsEditingBtn"
@@ -15,6 +18,8 @@ interface EditPasswordRowProps {
 }
 
 export const EditPasswordRow: FC<EditPasswordRowProps> = ({ setActiveRow }) => {
+  const [isVisible, setIsVisible] = useState(false)
+
   const form = useForm<PasswordFormSchemaType>({
     resolver: zodResolver(PasswordFormSchema),
     defaultValues: {
@@ -47,9 +52,8 @@ export const EditPasswordRow: FC<EditPasswordRowProps> = ({ setActiveRow }) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    autoComplete="on"
                     type="password"
-                    className="max-w-[300px] text-primary"
+                    className="w-full md:max-w-[300px] text-primary"
                     placeholder="Старый пароль"
                     {...field}
                   />
@@ -64,13 +68,26 @@ export const EditPasswordRow: FC<EditPasswordRowProps> = ({ setActiveRow }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    autoComplete="on"
-                    type="password"
-                    className="max-w-[300px] text-primary"
-                    placeholder="Новый пароль"
-                    {...field}
-                  />
+                  <div className="relative w-full md:max-w-[300px] text-primary">
+                    <Input
+                      className="pr-[45px]"
+                      type={!isVisible ? "password" : "text"}
+                      placeholder="Новый пароль"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      aria-label="Show password"
+                      className="absolute top-[5px] right-2 bg-white w-[30px] h-[30px] flex justify-center items-center">
+                      {!isVisible ? (
+                        <Eye onClick={() => setIsVisible(true)} />
+                      ) : (
+                        <EyeOff onClick={() => setIsVisible(false)} />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* <Input type="password" placeholder="Новый пароль" {...field} /> */}
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -83,9 +100,8 @@ export const EditPasswordRow: FC<EditPasswordRowProps> = ({ setActiveRow }) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    autoComplete="on"
                     type="password"
-                    className="max-w-[300px] text-primary"
+                    className="w-full md:max-w-[300px] text-primary"
                     placeholder="Повторите новый пароль"
                     {...field}
                   />

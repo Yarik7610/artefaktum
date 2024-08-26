@@ -41,7 +41,7 @@ export const EditUsernameRow: FC<EditUsernameRowProps> = ({ value, setActiveRow 
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Новое имя автора" className="max-w-[300px] text-primary" {...field} />
+                  <Input placeholder="Новое имя автора" className="w-full md:max-w-[300px] text-primary" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

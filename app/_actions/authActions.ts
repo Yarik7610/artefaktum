@@ -4,7 +4,7 @@ import { signIn } from "@/auth"
 import prisma from "@/lib/db"
 import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/mail"
 import { generatePasswordResetToken, generateVerificationToken } from "@/lib/tokens"
-import { RequestResetPasswordForm, SignInFormSchema, SignUpFormSchema } from "@/lib/zodSchemas"
+import { RequestResetPasswordFormSchema, SignInFormSchema, SignUpFormSchema } from "@/lib/zodSchemas"
 import { getUserByEmail } from "@/services/user"
 import { getVerificationTokenByToken } from "@/services/verificationToken"
 import { hash } from "bcryptjs"
@@ -103,8 +103,8 @@ export const verificateEmailAction = async (token: string, authorizedUserId: str
   return { message: "Почта подтверждена!" }
 }
 
-export const requestResetPassword = async (data: z.infer<typeof RequestResetPasswordForm>) => {
-  const validatedField = RequestResetPasswordForm.safeParse(data)
+export const requestResetPassword = async (data: z.infer<typeof RequestResetPasswordFormSchema>) => {
+  const validatedField = RequestResetPasswordFormSchema.safeParse(data)
   if (!validatedField.success) return { error: "Ошибка валидации формы" }
 
   const existingUser = await getUserByEmail(validatedField.data.email)

@@ -1,56 +1,50 @@
 "use client"
 
-import { signInAction } from "@/app/_actions/authActions"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
-import { SignInFormSchema, SignInFormSchemaType } from "@/lib/zodSchemas"
+import { NewPasswordFormSchema, NewPasswordFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff } from "lucide-react"
+import { Session } from "next-auth"
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { FC, useState } from "react"
 import { useForm } from "react-hook-form"
-import { toast } from "react-toastify"
 import { SubmitFormBtn } from "../submitFormBtn"
 
-export const SignInForm = () => {
+interface NewPasswordFormProps {
+  session: Session | null
+}
+export const NewPasswordForm: FC<NewPasswordFormProps> = ({ session }) => {
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+  const { push } = useRouter()
+
   const [isVisible, setIsVisible] = useState(false)
-  const form = useForm<SignInFormSchemaType>({
-    resolver: zodResolver(SignInFormSchema),
+
+  const form = useForm<NewPasswordFormSchemaType>({
+    resolver: zodResolver(NewPasswordFormSchema),
     defaultValues: {
-      email: "",
-      password: ""
+      newPassword: "",
+      newPasswordRepeat: ""
     }
   })
 
   const { isSubmitting } = form.formState
 
-  const onSubmit = async (data: SignInFormSchemaType) => {
-    const result = await signInAction(data)
-    if (result?.error) {
-      if (result.type === "info") toast.info(result.error)
-      else toast.error(result.error)
-    }
+  const onSubmit = async (data: NewPasswordFormSchemaType) => {
+    // const result = await requestResetPassword(data)
+    // if (result?.error) toast.error(result.error)
+    // else if (result?.message) toast.info(result?.message)
   }
 
   return (
     <Form {...form}>
       <form className="w-full flex flex-col gap-5" onSubmit={form.handleSubmit(onSubmit)}>
-        <legend className="text-3xl font-bold">Войдите в аккаунт</legend>
+        <legend className="text-3xl font-bold">Новый пароль</legend>
         <FormField
           control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input placeholder="Введите почту" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
+          name="newPassword"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -77,18 +71,22 @@ export const SignInForm = () => {
             </FormItem>
           )}
         />
-        <Link href={"/reset"} className="hover:underline font-medium">
-          Забыли пароль?
+        <FormField
+          control={form.control}
+          name="newPasswordRepeat"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="password" placeholder="Введите пароль повторно" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <SubmitFormBtn isSubmitting={isSubmitting}>Подтвердить</SubmitFormBtn>
+        <Link href={"/reset"} className="hover:underline text-center font-medium">
+          К восстановлению пароля
         </Link>
-        <SubmitFormBtn isSubmitting={isSubmitting}>Войти</SubmitFormBtn>
-        <p className="text-center text-gray-500">
-          Нет аккаунта?{" "}
-          <span className="font-medium text-primary">
-            <Link href={"/sign-up"} className="hover:underline">
-              Зарегистрироваться
-            </Link>
-          </span>
-        </p>
       </form>
     </Form>
   )

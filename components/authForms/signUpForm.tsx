@@ -71,7 +71,6 @@ export const SignUpForm = () => {
                     className="pr-[45px]"
                     type={!isVisible ? "password" : "text"}
                     placeholder="Введите пароль"
-                    autoComplete="on"
                     {...field}
                   />
                   <button

@@ -43,7 +43,7 @@ export const EditDescriptionRow: FC<EditDescriptionRowProps> = ({ value, setActi
                 <FormControl>
                   <Textarea
                     placeholder="Новое описание"
-                    className="resize-none max-w-[300px] h-[150px] overflow-auto text-primary"
+                    className="resize-none w-full md:max-w-[300px] h-[150px] overflow-auto text-primary"
                     {...field}
                   />
                 </FormControl>
