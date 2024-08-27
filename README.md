@@ -1,4 +1,4 @@
-# О проекте
+![image](https://github.com/user-attachments/assets/87eef8ba-7f2c-4f79-95c6-64fadaac5943)![Снимок экрана 2024-08-27 101004](https://github.com/user-attachments/assets/a832b9c2-80bc-4e6f-9b13-073d2e553ec9)# О проекте
 
 **Колли** - веб-сайт для коллекционеров со всего мира. Создавайте, смотрите, оценивайте, комментируйте. 
 
@@ -10,9 +10,9 @@
 ![Снимок экрана 2024-08-16 183307](https://github.com/user-attachments/assets/13955866-ad23-4028-990e-dc19208aab87)
 ![Снимок экрана 2024-08-16 183246](https://github.com/user-attachments/assets/368aa745-aaf4-4634-9453-c5999e7a4dd0)
 ![Снимок экрана 2024-08-16 182304](https://github.com/user-attachments/assets/6bccbb0e-582f-4ab5-b7e6-c44210e7c2d2)
-![Снимок экрана 2024-08-16 181933](https://github.com/user-attachments/assets/aae38df4-0176-456d-b9c9-eaeb7d1ce0b8)
-![Снимок экрана 2024-08-16 181738](https://github.com/user-attachments/assets/8a08f413-2c70-4bbd-91f6-70387bad6ec8)
-
+![Снимок экрана 2024-08-27 101212](https://github.com/user-attachments/assets/1428f87e-ce2a-4900-b6b2-ef1e685c21df)
+![Снимок экрана 2024-08-27 101103](https://github.com/user-attachments/assets/8cf3026b-67ca-4b5d-b650-436747818485)
+![Снимок экрана 2024-08-27 101004](https://github.com/user-attachments/assets/1b881b83-0a2c-426c-9788-80ea195722f7)
 
 # Функционал
 1. Регистрация, авторизация с подтверждением почты с помощью специальной ссылки.
