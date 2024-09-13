@@ -1,4 +1,4 @@
-import { AddCommentForm } from "@/components/comments/addCommentForm"
+import { AddCommentForm } from "@/components/commentsList/addCommentForm"
 import { CommentLiSkeleton } from "@/components/skeletons/commentLiSkeleton"
 
 export default function CollectionAsideLoading() {

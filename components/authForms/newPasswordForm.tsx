@@ -11,7 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { SubmitFormBtn } from "../submitFormBtn"
+import { SubmitFormBtn } from "../btns/submitFormBtn"
 
 export const NewPasswordForm = () => {
   const searchParams = useSearchParams()

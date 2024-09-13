@@ -1,4 +1,5 @@
 import { deleteUser } from "@/app/_actions/settingsActions"
+import { SubmitFormBtn } from "./btns/submitFormBtn"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,7 +11,6 @@ import {
   AlertDialogTrigger
 } from "./shadcn/alert-dialog"
 import { Button } from "./shadcn/button"
-import { SubmitFormBtn } from "./submitFormBtn"
 
 export const DeleteUserModal = () => {
   return (

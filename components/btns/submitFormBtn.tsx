@@ -3,7 +3,7 @@
 import { Loader2 } from "lucide-react"
 import { FC } from "react"
 import { useFormStatus } from "react-dom"
-import { Button } from "./shadcn/button"
+import { Button } from "../shadcn/button"
 
 interface SubmitFormBtnProps {
   children: React.ReactNode

@@ -1,9 +1,9 @@
 "use client"
 
 import { updatePassword } from "@/app/_actions/settingsActions"
+import { SubmitFormBtn } from "@/components/btns/submitFormBtn"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
-import { SubmitFormBtn } from "@/components/submitFormBtn"
 import { PasswordFormSchema, PasswordFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff } from "lucide-react"
@@ -11,7 +11,7 @@ import Link from "next/link"
 import { Dispatch, FC, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { CloseSettingsEditingBtn } from "../closeSettingsEditingBtn"
+import { CloseEditModeBtn } from "../closeEditModeBtn"
 
 interface EditPasswordRowProps {
   setActiveRow: Dispatch<SetStateAction<number>>
@@ -117,7 +117,7 @@ export const EditPasswordRow: FC<EditPasswordRowProps> = ({ setActiveRow }) => {
           </div>
 
           <div className="flex flex-wrap gap-3 mt-5">
-            <CloseSettingsEditingBtn setActiveRow={setActiveRow} />
+            <CloseEditModeBtn setActiveRow={setActiveRow} />
             <SubmitFormBtn isSubmitting={isSubmitting} className="w-[150px]">
               Подтвердить
             </SubmitFormBtn>

@@ -1,4 +1,4 @@
-import { UpdaterForm } from "@/components/updaterForm"
+import { UpdaterForm } from "@/components/collectionConstructor/updaterForm"
 import prisma from "@/lib/db"
 import { getUserBySession } from "@/services/user"
 import { Metadata } from "next"

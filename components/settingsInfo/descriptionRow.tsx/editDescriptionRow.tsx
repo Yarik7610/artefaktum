@@ -1,13 +1,13 @@
 import { updateDescription } from "@/app/_actions/settingsActions"
+import { SubmitFormBtn } from "@/components/btns/submitFormBtn"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Textarea } from "@/components/shadcn/textarea"
-import { SubmitFormBtn } from "@/components/submitFormBtn"
 import { DescriptionFormSchema, DescriptionFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Dispatch, FC, SetStateAction } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { CloseSettingsEditingBtn } from "../closeSettingsEditingBtn"
+import { CloseEditModeBtn } from "../closeEditModeBtn"
 
 interface EditDescriptionRowProps {
   value: string | null | undefined
@@ -52,7 +52,7 @@ export const EditDescriptionRow: FC<EditDescriptionRowProps> = ({ value, setActi
             )}
           />
           <div className="flex flex-wrap gap-3 mt-5">
-            <CloseSettingsEditingBtn setActiveRow={setActiveRow} />
+            <CloseEditModeBtn setActiveRow={setActiveRow} />
             <SubmitFormBtn isSubmitting={isSubmitting} className="w-[150px]">
               Подтвердить
             </SubmitFormBtn>

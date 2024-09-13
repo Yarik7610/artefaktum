@@ -11,9 +11,9 @@ import { Dispatch, FC, SetStateAction, useCallback, useState } from "react"
 import { UseFormReturn } from "react-hook-form"
 import { toast } from "react-toastify"
 import { v4 as uuidv4 } from "uuid"
+import { FormControl, FormField, FormItem, FormMessage } from "../shadcn/form"
+import { Input } from "../shadcn/input"
 import { PreviewImg } from "./creatorForm"
-import { FormControl, FormField, FormItem, FormMessage } from "./shadcn/form"
-import { Input } from "./shadcn/input"
 
 interface DragDropProps {
   form: UseFormReturn<CreatorFormSchemaType>

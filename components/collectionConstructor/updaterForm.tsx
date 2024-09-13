@@ -1,32 +1,31 @@
 "use client"
 
-import { createCollection } from "@/app/_actions/collectionActions"
+import { updateCollection } from "@/app/_actions/collectionActions"
 import { Button } from "@/components/shadcn/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn/form"
 import { Input } from "@/components/shadcn/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/shadcn/select"
 import { CreatorFormSchema, CreatorFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Tag } from "@prisma/client"
+import { Collection, Tag } from "@prisma/client"
 import { FC, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
+import { SubmitFormBtn } from "../btns/submitFormBtn"
+import { PreviewUploadImgs } from "../previewUploadImgs/previewUploadImgs"
+import { Textarea } from "../shadcn/textarea"
+import { PreviewImg } from "./creatorForm"
 import { DragDropInput } from "./dragDropInput"
-import { PreviewUploadImgs } from "./previewUploadImgs/previewUploadImgs"
-import { Textarea } from "./shadcn/textarea"
-import { SubmitFormBtn } from "./submitFormBtn"
 
-export interface PreviewImg {
-  id: string
-  src: string
-}
-
-interface CreatorFormProps {
+interface UpdaterFormProps {
   tags: Tag[]
+  collection: Collection
 }
 
-export const CreatorForm: FC<CreatorFormProps> = ({ tags }) => {
+export const UpdaterForm: FC<UpdaterFormProps> = ({ tags, collection }) => {
   const [previewImgs, setPreviewImgs] = useState<PreviewImg[]>([])
+
+  const tagsIds = tags.map((t) => t.id)
 
   const resetFiles = () => {
     form.setValue("files", [])
@@ -42,9 +41,9 @@ export const CreatorForm: FC<CreatorFormProps> = ({ tags }) => {
   const form = useForm<CreatorFormSchemaType>({
     resolver: zodResolver(CreatorFormSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      tag: "1",
+      name: collection.name,
+      description: collection.description ? collection.description : "",
+      tag: String(tagsIds.find((id) => id === collection.tag_id) ? collection.tag_id : 1), //if tag will be deleted from db
       files: []
     }
   })
@@ -56,6 +55,8 @@ export const CreatorForm: FC<CreatorFormProps> = ({ tags }) => {
       return
     }
     const formData = new FormData()
+    formData.append("user_id", collection.user_id)
+    formData.append("id", collection.id)
     formData.append("name", validatedFields.data.name)
     formData.append("tag", validatedFields.data.tag)
     formData.append("description", validatedFields.data.description)
@@ -64,13 +65,8 @@ export const CreatorForm: FC<CreatorFormProps> = ({ tags }) => {
       formData.append("filesIds", validatedFields.data.files[i].id)
     }
 
-    const result = await createCollection(formData)
-    if (result.error) toast.error(result.error)
-    else {
-      toast.success(result.message)
-      form.reset()
-      resetFiles()
-    }
+    const result = await updateCollection(formData)
+    if (result && result.error) toast.error(result.error)
   }
 
   const { isSubmitting } = form.formState
@@ -142,7 +138,7 @@ export const CreatorForm: FC<CreatorFormProps> = ({ tags }) => {
           </section>
         </div>
         <SubmitFormBtn isSubmitting={isSubmitting} className="mt-10 w-full md:w-[200px]">
-          Создать коллекцию
+          Изменить коллекцию
         </SubmitFormBtn>
       </form>
     </Form>

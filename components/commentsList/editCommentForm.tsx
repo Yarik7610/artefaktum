@@ -1,33 +1,41 @@
 "use client"
 
-import { createComment } from "@/app/_actions/commentActions"
+import { updateComment } from "@/app/_actions/commentActions"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/shadcn/form"
 import { Textarea } from "@/components/shadcn/textarea"
 import { CommentFormSchema, CommentFormSchemaType } from "@/lib/zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { FC } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { SubmitFormBtn } from "../submitFormBtn"
+import { SubmitFormBtn } from "../btns/submitFormBtn"
+import { Button } from "../shadcn/button"
 
-interface AddCommentFormProps {
+interface EditCommentFormProps {
+  commentId: string
   collectionId: string
+  currentText: string
+  closeEditMode: () => void
 }
-export const AddCommentForm: FC<AddCommentFormProps> = ({ collectionId }) => {
+export const EditCommentForm: FC<EditCommentFormProps> = ({ commentId, collectionId, closeEditMode, currentText }) => {
+  const { push } = useRouter()
   const form = useForm<CommentFormSchemaType>({
     resolver: zodResolver(CommentFormSchema),
     defaultValues: {
-      text: ""
+      text: currentText
     }
   })
 
   const onSubmit = async (data: CommentFormSchemaType) => {
-    const result = await createComment(data, collectionId)
+    const result = await updateComment(data, commentId)
     if (result?.error) {
       toast.error(result?.error)
     } else if (result?.message) {
       toast.success(result?.message)
       form.reset()
+      closeEditMode()
+      push(`/collection/${collectionId}`)
     }
   }
 
@@ -52,9 +60,12 @@ export const AddCommentForm: FC<AddCommentFormProps> = ({ collectionId }) => {
             </FormItem>
           )}
         />
-        <div className="flex justify-end">
-          <SubmitFormBtn isSubmitting={isSubmitting} className="w-[130px]">
-            Отправить
+        <div className="flex flex-wrap justify-end gap-3 items-center">
+          <Button variant={"outline"} type="button" onClick={closeEditMode}>
+            Отмена
+          </Button>
+          <SubmitFormBtn className="w-[110px]" isSubmitting={isSubmitting}>
+            Изменить
           </SubmitFormBtn>
         </div>
       </form>

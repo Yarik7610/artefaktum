@@ -1,5 +1,5 @@
 import { BigAvatar } from "@/components/avatars/bigAvatar"
-import { CollectionsAmount } from "@/components/colletionsAmount"
+import { CollectionsAmount } from "@/components/collectionsAmount"
 
 import { Separator } from "@/components/shadcn/separator"
 import prisma from "@/lib/db"

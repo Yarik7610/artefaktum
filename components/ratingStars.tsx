@@ -4,7 +4,7 @@ import { Star } from "lucide-react"
 import { FC, useEffect, useState } from "react"
 import { useFormState } from "react-dom"
 import { toast } from "react-toastify"
-import { SubmitFormBtn } from "./submitFormBtn"
+import { SubmitFormBtn } from "./btns/submitFormBtn"
 
 interface RatingStarsProps {
   collectionId: string

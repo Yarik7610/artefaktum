@@ -1,6 +1,7 @@
 import { getUserBySession } from "@/services/user"
 import Link from "next/link"
 import { Avatar } from "../avatars/avatar"
+import { SignOutBtn } from "../btns/signOutBtn"
 import { buttonVariants } from "../shadcn/button"
 import {
   DropdownMenu,
@@ -10,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "../shadcn/dropdown-menu"
-import { SignOutBtn } from "../signOutBtn"
 import { MobileMenu } from "./mobileMenu"
 
 export const Header = async () => {

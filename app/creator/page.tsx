@@ -1,4 +1,4 @@
-import { CreatorForm } from "@/components/creatorForm"
+import { CreatorForm } from "@/components/collectionConstructor/creatorForm"
 import prisma from "@/lib/db"
 import { Metadata } from "next"
 

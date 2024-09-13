@@ -10,7 +10,7 @@ import Link from "next/link"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { SubmitFormBtn } from "../submitFormBtn"
+import { SubmitFormBtn } from "../btns/submitFormBtn"
 
 export const SignUpForm = () => {
   const [isVisible, setIsVisible] = useState(false)

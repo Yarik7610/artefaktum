@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { PreviewImg } from "../creatorForm"
+import { PreviewImg } from "../collectionConstructor/creatorForm"
 import { PreviewUploadImg } from "./previewUploadImg"
 
 interface PreviewUploadImgsProps {
