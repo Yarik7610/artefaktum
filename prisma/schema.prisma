@@ -81,12 +81,12 @@ model Tag {
 }
 
 model Rating {
-  id            String      @id @default(uuid())
+  id            String     @id @default(uuid())
   value         Float
-  voter         User        @relation("UserVoter", fields: [voter_id], references: [id], onDelete: Cascade)
+  voter         User       @relation("UserVoter", fields: [voter_id], references: [id], onDelete: Cascade)
   voter_id      String
-  collection    Collection? @relation("CollectionRated", fields: [collection_id], references: [id], onDelete: Cascade)
-  collection_id String?
+  collection    Collection @relation("CollectionRated", fields: [collection_id], references: [id], onDelete: Cascade)
+  collection_id String
 
   @@unique([collection_id, voter_id])
   @@map("ratings")
