@@ -2,8 +2,7 @@
 import { deleteCollection } from "@/app/_actions/collectionActions"
 import { Pencil, Trash2 } from "lucide-react"
 import Link from "next/link"
-import { FC, useEffect } from "react"
-import { useFormState } from "react-dom"
+import { FC, useActionState, useEffect } from "react"
 import { toast } from "react-toastify"
 
 interface CollectionControllersProps {
@@ -22,7 +21,7 @@ const initialState: InitialCollectionDeleteState = {
 }
 
 export const CollectionControllers: FC<CollectionControllersProps> = ({ collectionId, userId }) => {
-  const [state, formAction] = useFormState(deleteCollection, initialState)
+  const [state, formAction] = useActionState(deleteCollection, initialState)
 
   useEffect(() => {
     if (state?.error) toast.error(state.error)

@@ -166,7 +166,7 @@ export const updateAvatar = async (formData: FormData) => {
 
 export const deleteUser = async () => {
   const user = await getUserBySession()
-  if (!user) return { error: "Вы не авторизованы" }
+  if (!user) throw new Error("Вы не авторизованы")
   if (user.image) await deleteAvatarFile(user.image)
 
   const userCollections = await prisma.collection.findMany({ where: { user_id: user.id } })

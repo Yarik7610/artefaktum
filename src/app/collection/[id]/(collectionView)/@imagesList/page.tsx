@@ -3,8 +3,10 @@ import prisma from "@/lib/db"
 import Image from "next/image"
 import Link from "next/link"
 
-export default async function ImagesList({ params }: { params: { id: string } }) {
-  const images = await prisma.image.findMany({ where: { collection_id: params.id } })
+export default async function ImagesList({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+
+  const images = await prisma.image.findMany({ where: { collection_id: id } })
 
   if (!images.length)
     return <h1 className="text-lg text-center h-[100px] xl:h-[350px] flex items-center justify-center">Картинок нет</h1>

@@ -88,12 +88,12 @@ export const DragDropInput: FC<DragDropProps> = ({ form, setPreviewImgs }) => {
           control={form.control}
           name="files"
           render={({ field: { value, onChange, ...fieldProps } }) => (
-            <FormItem className="w-full h-full">
-              <FormControl>
+            <FormItem className="w-full h-[inherit]">
+              <FormControl className="w-full h-[inherit]">
                 <Input
                   {...fieldProps}
                   multiple={true}
-                  className="w-full h-full opacity-0 cursor-pointer p-0"
+                  className="w-full h-[inherit] opacity-0 cursor-pointer p-0"
                   placeholder="Выберите файлы"
                   type="file"
                   accept={acceptableImagesExtensions}

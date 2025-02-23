@@ -5,9 +5,11 @@ import { buttonVariants } from "@/components/shadcn/button"
 import prisma from "@/lib/db"
 import Link from "next/link"
 
-export default async function AuthorsCollections({ params }: { params: { id: string } }) {
+export default async function AuthorsCollections({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+
   const collections = await prisma.collection.findMany({
-    where: { user_id: params.id }
+    where: { user_id: id }
   })
 
   const collectionsTags = await prisma.tag.findMany({
@@ -31,7 +33,7 @@ export default async function AuthorsCollections({ params }: { params: { id: str
     <>
       <div className="xl:w-[95%] ml-auto pt-0 sm:pb-5 flex justify-between items-center flex-wrap flex-col-reverse md:flex-row">
         <h2 className="text-2xl font-medium py-10 xl:py-0 text-center">Список коллекций:</h2>
-        {session?.user?.id === params.id && (
+        {session?.user?.id === id && (
           <Link href={"/creator"} className={`w-full sm:w-fit ${buttonVariants({ variant: "default" })}`}>
             Создать коллекцию
           </Link>

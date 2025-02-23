@@ -21,22 +21,25 @@ export type ExtendedComment = {
 }
 
 interface CommentsProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
   searchParams: SearchParamsType
 }
 
 export default async function Comments({ params, searchParams }: CommentsProps) {
-  let page = Number(searchParams?.page) || 1
+  const { id } = await params
+  const awaitedSearchParams = await searchParams
+
+  let page = Number(awaitedSearchParams?.page) || 1
   if (page < 0) page = 1
 
   const totalCount = await prisma.comment.count({
     where: {
-      collection_id: params.id
+      collection_id: id
     }
   })
 
   const extendedComments: ExtendedComment[] = await prisma.comment.findMany({
-    where: { collection_id: params.id },
+    where: { collection_id: id },
     include: {
       user: {
         select: {
@@ -59,7 +62,7 @@ export default async function Comments({ params, searchParams }: CommentsProps) 
   return (
     <>
       <h2 className="text-2xl font-bold line-clamp-2">Комментарии:</h2>
-      <AddCommentForm collectionId={params.id} />
+      <AddCommentForm collectionId={id} />
       {totalCount === 0 && (
         <p className="text-lg flex items-center justify-center h-[100px]">Нет комментариев. Оставьте его первым!</p>
       )}

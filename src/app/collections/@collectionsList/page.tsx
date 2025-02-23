@@ -5,7 +5,7 @@ import prisma from "@/lib/db"
 import { Collection, Image, Tag } from "@prisma/client"
 import { redirect } from "next/navigation"
 
-export type SearchParamsType = { [key: string]: string | string[] | undefined }
+export type SearchParamsType = Promise<{ [key: string]: string | string[] | undefined }>
 
 interface CollectionsListProps {
   searchParams: SearchParamsType
@@ -17,18 +17,20 @@ export type ExtendedCollection = Collection & {
 }
 
 export default async function CollectionsList({ searchParams }: CollectionsListProps) {
-  let page = Number(searchParams?.page) || 1
+  const awaitedSearchParams = await searchParams
+
+  let page = Number(awaitedSearchParams?.page) || 1
   if (page < 0) page = 1
 
-  const query = (searchParams?.query as string) || ""
-  const sortBy = (searchParams?.sortBy as string) || "average_rating"
-  const order = (searchParams?.orderBy as string) || "desc"
+  const query = (awaitedSearchParams?.query as string) || ""
+  const sortBy = (awaitedSearchParams?.sortBy as string) || "average_rating"
+  const order = (awaitedSearchParams?.orderBy as string) || "desc"
 
   let tags: number[] = []
-  if (searchParams) {
-    if (!Array.isArray(searchParams.tag)) {
-      if (searchParams.tag) tags.push(Number(searchParams.tag))
-    } else tags = searchParams.tag.map(Number)
+  if (awaitedSearchParams) {
+    if (!Array.isArray(awaitedSearchParams.tag)) {
+      if (awaitedSearchParams.tag) tags.push(Number(awaitedSearchParams.tag))
+    } else tags = awaitedSearchParams.tag.map(Number)
   }
   const tagsAmount = await prisma.tag.count()
   if (tags.some((t) => t < 1 || t > tagsAmount)) redirect("/collections")

@@ -9,13 +9,15 @@ export const metadata: Metadata = {
   description: "Страница для изменения коллекции"
 }
 
-export default async function UpdaterPage({ params }: { params: { id: string } }) {
+export default async function UpdaterPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+
   const user = await getUserBySession()
 
-  const collection = await prisma.collection.findUnique({ where: { id: params.id } })
+  const collection = await prisma.collection.findUnique({ where: { id } })
   if (!collection) notFound()
 
-  if (user?.id !== collection.user_id) redirect(`/collection/${params.id}`)
+  if (user?.id !== collection.user_id) redirect(`/collection/${id}`)
 
   const tags = await prisma.tag.findMany()
 

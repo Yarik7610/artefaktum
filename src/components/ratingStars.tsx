@@ -1,8 +1,7 @@
 "use client"
 import { rateCollection } from "@/app/_actions/collectionActions"
 import { Star } from "lucide-react"
-import { FC, useEffect, useState } from "react"
-import { useFormState } from "react-dom"
+import { FC, useActionState, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { SubmitFormBtn } from "./btns/submitFormBtn"
 
@@ -27,7 +26,7 @@ export const RatingStars: FC<RatingStarsProps> = ({ collectionId, previousRating
     setRating(rating === val ? 0 : val)
   }
 
-  const [state, formAction] = useFormState(rateCollection, initialState)
+  const [state, formAction] = useActionState(rateCollection, initialState)
 
   useEffect(() => {
     if (state?.error) toast.error(state.error)

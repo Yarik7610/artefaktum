@@ -1,8 +1,7 @@
 "use client"
 import { deleteComment } from "@/app/_actions/commentActions"
 import { Pencil, Trash2 } from "lucide-react"
-import { FC, useEffect } from "react"
-import { useFormState } from "react-dom"
+import { FC, useActionState, useEffect } from "react"
 import { toast } from "react-toastify"
 
 interface CommentControllersProps {
@@ -22,7 +21,7 @@ const initialState: InitialCommentDeleteState = {
 }
 
 export const CommentControllers: FC<CommentControllersProps> = ({ commentId, openEditMode }) => {
-  const [state, formAction] = useFormState(deleteComment, initialState)
+  const [state, formAction] = useActionState(deleteComment, initialState)
 
   useEffect(() => {
     if (state?.error) toast.error(state.error)

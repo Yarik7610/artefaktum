@@ -11,12 +11,14 @@ interface AuthorsListProps {
 }
 
 export default async function AuthorsList({ searchParams }: AuthorsListProps) {
-  let page = Number(searchParams?.page) || 1
+  const awaitedSearchParams = await searchParams
+
+  let page = Number(awaitedSearchParams?.page) || 1
   if (page < 0) page = 1
 
-  const query = (searchParams?.query as string) || ""
-  const sortBy = (searchParams?.sortBy as string) || "average_rating"
-  const order = (searchParams?.orderBy as string) || "desc"
+  const query = (awaitedSearchParams?.query as string) || ""
+  const sortBy = (awaitedSearchParams?.sortBy as string) || "average_rating"
+  const order = (awaitedSearchParams?.orderBy as string) || "desc"
 
   let totalCount: number
   try {
