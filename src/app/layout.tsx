@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} max-w-[2560px] mx-auto`}>
         <Header />
         {children}
         <ToastContainer autoClose={10000} />
@@ -27,3 +27,4 @@ export default function RootLayout({
     </html>
   )
 }
+
