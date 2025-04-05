@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (email: string, token: string, type: 
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: emailSender!,
-    subject: type === "set" ? "Колли. Подтверждение почты" : "Колли. Подтверждение новой почты для смены",
+    subject: type === "set" ? "Артефактум. Подтверждение почты" : "Артефактум. Подтверждение новой почты для смены",
     html: `<p>Нажмите <a href="${confirmLink}">сюда</a>, чтобы подтвердить почту</p>`
   })
 }
@@ -21,7 +21,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   await resend.emails.send({
     from: "onboarding@resend.dev",
     to: emailSender!,
-    subject: "Колли. Восстановление пароля",
+    subject: "Артефактум. Восстановление пароля",
     html: `<div><h1>Если это были не вы, то удалите данное сообщение!</h1>
     <p>Нажмите <a href="${resetLink}">сюда</a>, чтобы восстановить пароль</p><div>`
   })

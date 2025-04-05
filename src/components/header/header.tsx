@@ -19,7 +19,7 @@ export const Header = async () => {
   return (
     <header className="h-[80px] px-8 flex justify-between items-center max-w-[1920px] mx-auto">
       <h1 className="text-2xl sm:text-3xl font-bold">
-        <Link href={"/"}>Колли</Link>
+        <Link href={"/"}>Артефактум</Link>
       </h1>
       <nav className="hidden md:block">
         <ul className="flex items-center justify-center space-x-16 font-medium text-gray-500">
